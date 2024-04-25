@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <!-- Add Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+  <h1 class="text-center text-4xl font-bold uppercase">
+    this is my new api in html
+  </h1>
+  <div id="cardsContainer" class="flex flex-wrap justify-center mt-8"></div>
+
+  <script>
+    fetch("https://api.github.com/users", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        // Create a div to contain the cards
+        const cardsContainer = document.getElementById("cardsContainer");
+
+        // Iterate over each element in the JSON array
+        json.forEach((user) => {
+          // Create a new card element for each user
+          const card = document.createElement("div");
+          card.classList.add("max-w-xs", "rounded", "overflow-hidden", "shadow-lg", "m-4");
+          // Add HTML structure for the card
+          card.innerHTML = `
+            <img class="w-full" src="${user.avatar_url}" alt="${user.login}">
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2">${user.login}</div>
+              <p class="text-gray-700 text-base">${user.url}</p>
+            </div>
+          `;
+          // Append the card to the cards container
+          cardsContainer.appendChild(card);
+        });
+      })
+      .catch((error) => console.error("Error:", error));
+  </script>
+</body>
+</html>
